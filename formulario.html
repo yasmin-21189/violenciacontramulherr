@@ -1,0 +1,116 @@
+<link rel="icon" href="espelhomeu.png" type="image/x-icon">
+
+<section id="feedback" 
+  style="padding:20px; max-width:400px; margin:25px auto; background:#faf7ff; 
+         border-radius:14px; box-shadow:0 4px 10px rgba(0,0,0,0.1); 
+         font-family:'Poppins', sans-serif;">
+
+  <h2 style="text-align:center; color:#4a1f6d; margin-bottom:15px;">
+    💬 Deixe seu feedback
+  </h2>
+
+  <form id="feedback-form" style="display:flex; flex-direction:column; gap:12px;">
+    <input 
+      type="text" 
+      name="nome" 
+      placeholder="Seu nome"
+      required
+      style="padding:12px; border-radius:10px; border:1px solid #bbb; font-size:14px;">
+    
+    <input 
+      type="email" 
+      name="email" 
+      placeholder="Seu email"
+      required
+      style="padding:12px; border-radius:10px; border:1px solid #bbb; font-size:14px;">
+
+    <textarea 
+      name="mensagem" 
+      placeholder="Escreva sua sugestão ou comentário"
+      required
+      style="padding:12px; border-radius:10px; border:1px solid #bbb; 
+             font-size:14px; resize:none; height:80px;">
+    </textarea>
+
+    <div style="display:flex; flex-direction:column; align-items:center; gap:5px;">
+      <span style="color:#4a1f6d; font-size:14px;">Avaliação:</span>
+      <div class="estrelas" style="display:flex; gap:6px; font-size:26px; cursor:pointer;">
+        <span data-star="1">☆</span>
+        <span data-star="2">☆</span>
+        <span data-star="3">☆</span>
+        <span data-star="4">☆</span>
+        <span data-star="5">☆</span>
+      </div>
+    </div>
+
+    <button type="submit"
+      style="background:linear-gradient(135deg, #a24cc7, #d27ee5); color:#fff; 
+             padding:12px; border:none; border-radius:25px; font-size:15px; 
+             font-weight:600; cursor:pointer; transition:0.3s;">
+      Enviar
+    </button>
+  </form>
+
+  <p id="feedback-status" style="margin-top:10px; text-align:center; color:#4a1f6d;"></p>
+</section>
+
+<style>
+  /* RESPONSIVO */
+  @media (max-width: 500px) {
+    #feedback {
+      margin: 15px;
+      padding: 15px;
+    }
+
+    #feedback input,
+    #feedback textarea,
+    #feedback button {
+      font-size: 13px !important;
+      padding: 10px !important;
+    }
+
+    .estrelas {
+      font-size: 22px !important;
+      gap: 4px !important;
+    }
+  }
+</style>
+
+<script>
+  let avaliacao = 0;
+  const estrelas = document.querySelectorAll('.estrelas span');
+
+  function atualizarEstrelas(qtde) {
+    estrelas.forEach(star => {
+      star.textContent = parseInt(star.dataset.star) <= qtde ? '★' : '☆';
+    });
+  }
+
+  estrelas.forEach(star => {
+    const selecionar = () => {
+      avaliacao = parseInt(star.dataset.star);
+      atualizarEstrelas(avaliacao);
+    };
+    star.addEventListener('click', selecionar);
+    star.addEventListener('touchstart', selecionar);
+  });
+
+  document.getElementById('feedback-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const nome = this.nome.value.trim();
+    const email = this.email.value.trim();
+    const mensagem = this.mensagem.value.trim();
+
+    if (!avaliacao) {
+      alert('Por favor, selecione quantas estrelas quer dar.');
+      return;
+    }
+
+    console.log({ nome, email, mensagem, estrelas: avaliacao });
+
+    document.getElementById('feedback-status').textContent = "✅ Obrigado pelo seu feedback!";
+    this.reset();
+    avaliacao = 0;
+    atualizarEstrelas(0);
+  });
+</script>

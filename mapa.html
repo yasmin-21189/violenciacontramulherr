@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Espelho Meu - Mapa Paranaguá</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="icon" href="espelhomeu.png" type="image/x-icon">
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <style>
+    html, body {
+      margin: 0; padding: 0;
+      width: 100%; height: 100%;
+      font-family: 'Poppins', sans-serif;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: flex-start;
+      background: url('cadastro foto.jpg') no-repeat center center fixed;
+      background-size: cover;
+      overflow: hidden;
+    }
+
+    #location-status {
+      margin: 10px;
+      padding: 10px 15px;
+      border-radius: 12px;
+      background-color: rgba(211, 77, 252, 0.85);
+      font-size: 16px;
+      font-weight: 500;
+      text-align: center;
+      max-width: 95%;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      z-index: 500;
+      word-wrap: break-word;
+    }
+
+    #map {
+      width: 95%;
+      flex: 1 1 auto;
+      min-height: 50vh;
+      max-height: 80vh;
+      border-radius: 15px;
+      margin-bottom: 15px;
+    }
+
+    #safe-btn, #locate-btn {
+      position: fixed;
+      padding: 10px 15px;
+      border-radius: 12px;
+      font-weight: 600;
+      color: #fff;
+      text-decoration: none;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+      z-index: 1000;
+      cursor: pointer;
+    }
+
+    #safe-btn {
+      top: 15px; left: 15px;
+      background-color: rgba(14, 13, 13, 0.85);
+    }
+    #safe-btn:hover { transform: scale(1.05); }
+
+    #locate-btn {
+      top: 15px; right: 15px;
+      background-color: rgba(63, 81, 181, 0.95);
+    }
+    #locate-btn:hover { transform: scale(1.05); }
+
+    @media (max-width: 600px) {
+      #location-status { font-size: 14px; padding: 8px 10px; }
+      #map { min-height: 40vh; max-height: 70vh; }
+      #safe-btn, #locate-btn { padding: 8px 12px; font-size: 14px; }
+    }
+
+    @media (max-width: 400px) {
+      #map { width: 100%; border-radius: 0; min-height: 35vh; }
+      #safe-btn, #locate-btn { font-size: 12px; padding: 6px 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <a id="safe-btn" href="index.html" target="_blank">🔒 Modo Seguro</a>
+  <button id="locate-btn" title="Encontrar minha localização">📌 Localizar-me</button>
+
+  <div id="location-status">🔍 Buscando sua localização...</div>
+  <div id="map"></div>
+
+  <script>
+    function showStatus(html) {
+      document.getElementById('location-status').innerHTML = html;
+    }
+
+    var map = L.map('map').setView([-25.5202, -48.5200], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+    setTimeout(()=>map.invalidateSize(),300);
+
+    function createMarker(lat,lng,name,address,phone,imgUrl){
+      var icon = L.icon({ iconUrl: imgUrl, iconSize:[50,50], iconAnchor:[22,45] });
+      return L.marker([lat,lng],{icon}).bindPopup(`
+        <b>${name}</b><br>${address||''}<br>Telefone: ${phone||''}<br>
+        <a href="https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}" target="_blank">📍 Como chegar</a>
+      `);
+    }
+
+    var icons = {
+      hospital:"mapsss.png", bombeiro:"mapss.png", pm:"mapss.png", posto:"maps.png", user:"boneca.png"
+    };
+
+   
+    var hospitais = [
+      {lat:-25.51544,lng:-48.51102,name:"Hospital Paranaguá",phone:"(41)3721-8000",address:"R. Nestor Víctor, 222 - João Gualberto"},
+      {lat:-25.52489,lng:-48.51449,name:"Hospital Regional do Litoral",phone:"(41)3420-7400",address:"Rua Presidente Getúlio Vargas, 222 – Palmital"}
+    ];
+
+    var bombeiros = [
+      {lat:-25.51328,lng:-48.50011,name:"1º Sub Grupamento de Bombeiros",phone:"(41)34230-4041",address:"R. Visc. de Nácar, 266 - Centro Histórico"},
+      {lat:-25.56271,lng:-48.56503,name:"8º Batalhão de Bombeiros - Litoral",phone:"(41)3427-2006",address:"Av. Gov. Bento Munhoz da Rocha Neto, 5445 - Nílson Neves"}
+    ];
+
+    var batalhaoPM = [
+      {lat:-25.52195,lng:-48.51133,name:"Delegacia da Mulher",phone:"(41)3423-1115",address:"Rua Vieira dos Santos, 200 - Centro Histórico"},
+      {lat:-25.51052,lng:-48.52227,name:"Ponto de Atendimento à Mulher (PAM)",phone:"(41)37211848",address:"Av. Almirante Maximiliano Da Fonseca - João Gualberto, Paranaguá - PR"}
+      
+    ];
+
+    var postosSaude = [
+      {lat:-25.51594,lng:-48.52063,name:"Unidade de Saúde Ezequiel Luiz Dias do Nascimento",phone:"(41)3721-1798",address:"Av. Cel. Santa Rita, 1045 - João Gualberto"},
+      {lat:-25.56420,lng:-48.56220,name:"Posto De Saúde Caic",phone:"(41)3721-1797",address:"R. José Bento Marcelino Filho, 420 - Nílson Neves"},
+      {lat:-25.51492,lng:-48.54069,name:"Unidade de Saúde Simão Aisenman",phone:"(41)3425-1968",address:"R. Eugênio J. de Souza, 209 - Vila Guarani"},
+      {lat:-25.51580,lng:-48.53115,name:"UBS Domingos Lopes do Rosário - Serraria do Rocha",phone:"(41)3420-2822",address:"R. Barão do Amazonas, 422 - Serraria do Rocha"},
+      {lat:-25.51554,lng:-48.51346,name:"Centro de Saúde Gabriel de Lara",phone:"(41)3420-2784",address:"Av. Gabriel de Lara, 977 - Alto São Sebastião"},
+      {lat:-25.51607,lng:-48.50856,name:"Centro de Saúde da Mulher",phone:"(41)3423-8166",address:"R. João Eugênio, 859 - Centro"},
+      {lat:-25.51648,lng:-48.50887,name:"Secretaria de Saúde Mário Manoel das Dores Roque",phone:"(41)3721-1830",address:"R. João Eugênio, 959 - Costeira"},
+      {lat:-25.52675,lng:-48.50268,name:"UBS Rodrigo Gomes",phone:"(41)3420-2940",address:"R. Transversal Dois, Ilha dos Valadares"},
+      {lat:-25.53435,lng:-48.50722,name:"Posto de Saúde Norberto Costa",phone:"(41)3423-1120",address:"Ilha dos Valadares"},
+      {lat:-25.52653,lng:-48.53180,name:"UBS Evanil Rodrigues",phone:"(41)3420-2843",address:"R. Washington Luiz, 65 - Jardim Araca"},
+      {lat:-25.53091,lng:-48.51878,name:"UPA 24h Paranaguá",phone:"(41)3420-2839",address:"Av. Pref. Dr. Roque Vernalha - Estradinha"},
+      {lat:-25.53106,lng:-48.54486,name:"UBS Guilhermina Mazzali Gaida",phone:"(41)3420-6163",address:"R. dos Jatobás, 428 - Jardim Iguaçú"},
+      {lat:-25.54354,lng:-48.53151,name:"UBS Argemiro de Félix - Santos Dumont",phone:"(41)3420-2846",address:"Av. Gen. Ivan Jejuhy Afonso da Costa, 879 - Vila São Vicente"},
+      {lat:-25.54249,lng:-48.54729,name:"UBS Luiz Carlos Gomes - Vila do Povo",phone:"(41)3420-2968",address:"Av. José da Costa Leite, 1406 - Vila do Povo"},
+      {lat:-25.55937,lng:-48.55315,name:"UBS Ubirajara Elias Roque (O Branquinho)",phone:"(41)3420-2925",address:"Vila Divinéia"},
+      {lat:-25.56401,lng:-48.56221,name:"UBS Sueli Dutra Alves Caic",phone:"(41)3420-2973",address:"R. José Bento Marcelino Filho, 56 - Nílson Neves"},
+      {lat:-25.57831,lng:-48.57345,name:"UBS Vila Garcia",phone:"(41)3420-6162",address:"R. Subtenente Onofre Moreira da Rocha, 126 - Vila Garcia"},
+      {lat:-25.55641,lng:-48.62744,name:"UBS Dr. Elias Borges Neto (Alexandra)",phone:"(41)3468-1029",address:"R. Silvino Trípole, 275 - Alexandra"},
+      {lat:-25.64673,lng:-48.58893,name:"UBS Antônio Santo Escomação",phone:"(41)9189-7985",address:"Rodovia Elísio Pereira Alves Filho, PR-508, KM 7 - Colônia Maria Luiza"},
+      {lat:-25.57057,lng:-48.31385,name:"UBS Ana das Neves - Encantadas",phone:"(41)3426-9002",address:"Ilha do Mel"},
+      {lat:-25.54221,lng:-48.30418,name:"Posto de Saúde Nova Brasília",phone:"",address:"Ilha do Mel"}
+    ];
+
+    hospitais.forEach(h=>createMarker(h.lat,h.lng,h.name,h.address,h.phone,icons.hospital).addTo(map));
+    bombeiros.forEach(b=>createMarker(b.lat,b.lng,b.name,b.address,b.phone,icons.bombeiro).addTo(map));
+    batalhaoPM.forEach(p=>createMarker(p.lat,p.lng,p.name,p.address,p.phone,icons.pm).addTo(map));
+    postosSaude.forEach(s=>createMarker(s.lat,s.lng,s.name,s.address,s.phone,icons.posto).addTo(map));
+
+
+    var userMarker=null;
+    function computeClosestStation(userLat,userLng){
+      var closestStation=null, closestDistance=Infinity;
+      var allStations=hospitais.concat(bombeiros,batalhaoPM,postosSaude);
+      allStations.forEach(function(station){
+        var distance=map.distance([userLat,userLng],[station.lat,station.lng]);
+        if(distance<closestDistance){ closestDistance=distance; closestStation=station; }
+      });
+      return {closestStation,closestDistance};
+    }
+
+    function handlePositionSuccess(position){
+      var userLat=position.coords.latitude;
+      var userLng=position.coords.longitude;
+
+      if(userMarker) map.removeLayer(userMarker);
+      userMarker=L.marker([userLat,userLng],{icon:L.icon({iconUrl:icons.user,iconSize:[50,50],iconAnchor:[25,50]})}).addTo(map).bindPopup("📍 Você está aqui").openPopup();
+      map.setView([userLat,userLng],13);
+
+      var nearest=computeClosestStation(userLat,userLng);
+      if(nearest.closestStation){
+        showStatus(`🧍‍♀️ Você está a <b>${Math.round(nearest.closestDistance)} metros</b> da unidade mais próxima: <b>${nearest.closestStation.name}</b>`);
+      } else showStatus("✅ Localização obtida, mas não foi possível calcular a unidade mais próxima.");
+    }
+
+    function handlePositionError(err){
+      switch(err.code){
+        case 1: showStatus("❌ Permissão negada."); break;
+        case 2: showStatus("❌ Localização indisponível."); break;
+        case 3: showStatus("⌛ Tempo esgotado. Clique em 'Localizar-me'."); break;
+        default: showStatus("❌ Erro ao obter localização."); 
+      }
+    }
+
+    document.getElementById('locate-btn').addEventListener('click',()=>{
+      if(!navigator.geolocation){ showStatus("❌ Geolocalização não suportada."); return; }
+      showStatus("🔍 Solicitando sua localização...");
+      navigator.geolocation.getCurrentPosition(handlePositionSuccess,handlePositionError,{enableHighAccuracy:true,timeout:10000,maximumAge:60000});
+    });
+
+
+    setTimeout(()=>{ navigator.geolocation.getCurrentPosition(handlePositionSuccess,handlePositionError,{enableHighAccuracy:true,timeout:10000,maximumAge:60000}); },700);
+
+  </script>
+</body>
+</html>

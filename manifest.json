@@ -1,0 +1,20 @@
+{
+  "name": "Espelho Meu ",
+  "short_name": "Site",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#6a0dad",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "espelhomeu.jpg"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "espelhomeu.jpg"
+    }
+  ]
+}

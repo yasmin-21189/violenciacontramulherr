@@ -1,0 +1,131 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  background: #f9f4ff;
+  color: #3d1a5b;
+}
+
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.topo {
+  background: linear-gradient(135deg, #a64ac9, #d57ee8);
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+  position: relative;
+}
+
+.topo h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.topo p {
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.voltar {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.principal {
+  padding: 20px;
+  flex: 1;
+}
+
+.alerta {
+  background: #f4e1ff;
+  border-left: 5px solid #a64ac9;
+  padding: 12px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e7c8ff;
+  border-radius: 15px;
+  text-align: center;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(166, 74, 201, 0.1);
+}
+
+.card i {
+  font-size: 28px;
+  color: #a64ac9;
+}
+
+.card h2 {
+  margin: 10px 0 5px 0;
+  color: #6b2fa8;
+}
+
+.card p {
+  font-size: 14px;
+  color: #4a235a;
+}
+
+.btn-mapa {
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(135deg, #a64ac9, #d57ee8);
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-mapa:hover {
+  opacity: 0.9;
+}
+
+.menu-inferior {
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid #eee;
+  background: #fff;
+  padding: 10px 0;
+}
+
+.item {
+  color: #aaa;
+  text-decoration: none;
+  font-size: 12px;
+  text-align: center;
+}
+
+.item i {
+  display: block;
+  font-size: 18px;
+}
+
+.item.ativo {
+  color: #6b2fa8;
+  font-weight: 600;
+}

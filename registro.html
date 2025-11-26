@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Características - Espelho Meu</title>
+    <link rel="icon" href="espelhomeu.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="registro.css">
+</head>
+<body>
+    <div class="app-container">
+      
+        <header class="header">
+            <a href="violencia.html" class="back-button"><i class="fas fa-arrow-left"></i></a>
+            <h1>Registro do Importunador</h1>
+            <p>Seu registro é seguro e ajuda na denúncia</p>
+        </header>
+
+        <main class="content">
+            <section class="info-box">
+                <i class="fas fa-lightbulb"></i>
+                Tente lembrar o máximo de detalhes. Se não souber, deixe em branco. O foco é a sua segurança.
+            </section>
+
+            <div id="mensagem"></div>
+
+          
+            <form id="registroForm" class="registro-form">
+                
+                <h2>1. Dados Físicos</h2>
+
+                <div class="form-group">
+                    <label for="altura">Altura aproximada:</label>
+                    <input type="text" id="altura" name="altura" placeholder="Ex: 1,70m ou 'Mais alto que eu'">
+                </div>
+
+                <div class="form-group">
+                    <label for="pele">Cor da Pele:</label>
+                    <select id="pele" name="pele">
+                        <option value="">Selecione</option>
+                        <option value="branca">Branca</option>
+                        <option value="parda">Parda</option>
+                        <option value="negra">Negra</option>
+                        <option value="amarela">Amarela (Leste Asiático)</option>
+                        <option value="indigena">Indígena</option>
+                        <option value="outra">Outra / Não sei informar</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="cabelo">Tipo e Cor do Cabelo:</label>
+                    <input type="text" id="cabelo" name="cabelo" placeholder="Ex: Liso, preto e curto / Cacheado, castanho claro">
+                </div>
+
+                <div class="form-group">
+                    <label for="caracteristicas">Características Marcantes:</label>
+                    <textarea id="caracteristicas" name="caracteristicas" rows="3" placeholder="Ex: Tatuagem no braço esquerdo, cicatriz na sobrancelha, usava óculos de grau"></textarea>
+                </div>
+
+                <h2>2. Vestimenta</h2>
+
+                <div class="form-group">
+                    <label for="roupa_superior">Roupa Superior:</label>
+                    <input type="text" id="roupa_superior" name="roupa_superior" placeholder="Ex: Camiseta vermelha com estampa branca">
+                </div>
+
+                <div class="form-group">
+                    <label for="roupa_inferior">Roupa Inferior:</label>
+                    <input type="text" id="roupa_inferior" name="roupa_inferior" placeholder="Ex: Calça jeans clara rasgada">
+                </div>
+
+                <h2>3. Veículo (se houver)</h2>
+
+                <div class="form-group">
+                    <label for="tipo_veiculo">Tipo de Veículo:</label>
+                    <input type="text" id="tipo_veiculo" name="tipo_veiculo" placeholder="Ex: Carro Sedã, Moto, Van">
+                </div>
+
+                <div class="form-group">
+                    <label for="placa">Placa do Veículo:</label>
+                    <input type="text" id="placa" name="placa" placeholder="Ex: ABC-1234 ou 'Apenas o 1 no final'">
+                </div>
+
+                <div class="form-group">
+                    <label for="cor_veiculo">Cor do Veículo:</label>
+                    <input type="text" id="cor_veiculo" name="cor_veiculo" placeholder="Ex: Preto, Prata, Azul Marinho">
+                </div>
+
+                <button type="submit" class="btn-submit">Salvar Informações</button>
+            </form>
+        </main>
+
+     
+        <nav class="bottom-nav">
+            <a href="home.html" class="nav-item"><i class="fas fa-home"></i><span>Home</span></a>
+            <a href="ajuda.html" class="nav-item"><i class="fas fa-hands-helping"></i><span>Suporte</span></a>
+            <a href="registro.html" class="nav-item active"><i class="fas fa-user-circle"></i><span>Registrar</span></a>
+        </nav>
+    </div>
+
+    <script src="registro.js"></script>
+</body>
+</html>
